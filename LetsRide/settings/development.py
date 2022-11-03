@@ -4,6 +4,7 @@ import os
 
 load_dotenv(find_dotenv())
 
+print("Development Settings")
 SECRET_KEY = os.environ.get('SECRET_KEY', 'development')
 DEBUG = os.environ.get('DEBUG', False)
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')

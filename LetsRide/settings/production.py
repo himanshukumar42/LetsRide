@@ -3,6 +3,8 @@ from dotenv import find_dotenv, load_dotenv
 import os
 
 load_dotenv(find_dotenv())
+
+print("Production Settings")
 SECRET_KEY = os.environ.get('SECRET_KEY', 'production-secret')
 DEBUG = False
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
