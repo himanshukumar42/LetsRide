@@ -2,6 +2,8 @@ from LetsRide.settings.common import *
 from dotenv import find_dotenv, load_dotenv
 import os
 
+load_dotenv(find_dotenv())
+
 SECRET_KEY = os.environ.get('SECRET_KEY', 'staging-secret')
 DEBUG = False
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
