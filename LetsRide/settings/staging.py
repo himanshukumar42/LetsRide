@@ -6,7 +6,7 @@ load_dotenv(find_dotenv())
 
 print("Staging Settings")
 SECRET_KEY = os.environ.get('SECRET_KEY', 'staging-secret')
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
