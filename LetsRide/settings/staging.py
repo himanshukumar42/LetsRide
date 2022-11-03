@@ -4,7 +4,7 @@ import os
 
 load_dotenv(find_dotenv())
 
-Print("Staging Settings")
+print("Staging Settings")
 SECRET_KEY = os.environ.get('SECRET_KEY', 'staging-secret')
 DEBUG = False
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
