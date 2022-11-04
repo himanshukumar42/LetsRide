@@ -24,7 +24,9 @@ ASSET_SENSITIVITY = Choices(
 )
 
 STATUS = Choices(
-
+    ('Confirm', 'confirm'),
+    ('Pending', 'pending'),
+    ('Expired', 'expired')
 )
 
 
@@ -51,4 +53,4 @@ class Requester(models.Model):
     asset_sensitivity = models.CharField(max_length=150, choices=ASSET_SENSITIVITY, default=ASSET_SENSITIVITY.Normal)
     whom_to_deliver = models.CharField(max_length=255)
     accepted_person = models.CharField(max_length=255)
-    status = models.
+    status = models.CharField(max_length=150, choices=STATUS, default=STATUS.Confirm)
