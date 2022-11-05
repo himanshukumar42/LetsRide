@@ -4,11 +4,10 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
-print("Staging Settings")
+print("Local Settings")
 SECRET_KEY = get_env_value('SECRET_KEY')
 DEBUG = get_env_value('DEBUG')
 ALLOWED_HOSTS = get_env_value('ALLOWED_HOSTS').split(' ')
-DATABASE_URL = get_env_value('DATABASE_URL')
 
 DATABASES = {
     'default': {
