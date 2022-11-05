@@ -6,5 +6,11 @@
 </head>
 <body>
   <h1>Rider Create Form</h1>
+  <a href="{% url 'riders' %}">Go Back</a>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
