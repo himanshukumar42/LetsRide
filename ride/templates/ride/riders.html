@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rider List</title>
+</head>
+<body>
+    <h1>Rider List</h1>
+
+    <table border="1" cellpadding="7">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {% for rider in riders %}
+        <tr>
+            <td>{{rider.name}}</td>
+            <td>{{rider.description}}</td>
+            <td><a href="{% url 'rider' rider.id %}" style="color:blue;">View</a></td>
+        </tr>
+        {% empty %}
+            <h3>No Rider in List</h3>
+        {% endfor %}
+    </table>
+</body>
+</html>

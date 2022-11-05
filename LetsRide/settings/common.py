@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ride',
+    'ride.apps.RideConfig',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +49,7 @@ ROOT_URLCONF = 'LetsRide.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
