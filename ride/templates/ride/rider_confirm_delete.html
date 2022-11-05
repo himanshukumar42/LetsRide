@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rider Delete</title>
+</head>
+<body>
+    <a href="{% url 'riders' %}">Go Back</a>
+    <form method="POST">
+      {% csrf_token %}
+        <p>Are you sure you want to delete this rider? "{{rider}}"</p>
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

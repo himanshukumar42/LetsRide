@@ -1,19 +1,22 @@
 from LetsRide.settings.common import *
+from LetsRide.utility.get_env import get_env_value
 from dotenv import find_dotenv, load_dotenv
-import os
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'production-secret')
-DEBUG = False
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
-DATABASE_URL = os.environ.get('DATABASE_URL')
+load_dotenv(find_dotenv())
+
+print("Production Settings")
+SECRET_KEY = get_env_value('SECRET_KEY')
+DEBUG = get_env_value('DEBUG')
+ALLOWED_HOSTS = get_env_value('ALLOWED_HOSTS').split(' ')
+DATABASE_URL = get_env_value('DATABASE_URL')
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT')
+        'ENGINE': get_env_value('DB_ENGINE'),
+        'NAME': get_env_value('DB_NAME'),
+        'USER': get_env_value('DB_USER'),
+        'PASSWORD': get_env_value('DB_PASSWORD'),
+        'HOST': get_env_value('DB_HOST'),
+        'PORT': get_env_value('DB_PORT')
     }
 }
