@@ -1,5 +1,5 @@
 from LetsRide.settings.common import *
-from LetsRide.utility.get_env import get_env_value
+from LetsRide.utility.request_response import get_env_value
 from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
