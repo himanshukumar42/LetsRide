@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-from LetsRide.utility.get_env import get_env_value
+from LetsRide.utility.request_response import get_env_value
 import os
 import sys
 
