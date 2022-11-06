@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ride.apps.RideConfig',
+    'ride',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,8 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'logout'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
