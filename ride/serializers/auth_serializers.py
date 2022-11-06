@@ -4,10 +4,14 @@ from LetsRide.utility.messages import ERROR_CODE, ErrorManager
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.exceptions import AuthenticationFailed
 from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.utils.encoding import force_str
 from rest_framework import serializers
 from django.db.models import Q
+
+
+USER = get_user_model()
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -34,7 +38,7 @@ class LoginSerializer(serializers.ModelSerializer):
         user = None
         try:
             user = User.objects.get(Q(email__iexact=email) | Q(username__iexact=email))
-        except User.DoesNotExist:
+        except USER.DoesNotExist:
             self.custom_validate_error(message=ERROR_CODE['user']['not_exist'])
 
         if not User.is_active:
