@@ -1,10 +1,13 @@
-from LetsRide.utility.messages import ERROR_CODE, SUCCESS_CODE
+from oauth2_provider.models import Application, AccessToken, RefreshToken
 from LetsRide.utility.constant import SPECIAL_CHARACTERS, INT_NUMBER
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from LetsRide.utility.messages import ERROR_CODE, SUCCESS_CODE
 from rest_framework.serializers import ValidationError
-from rest_framework.response import Response
+from django.contrib.auth import get_user_model
 from rest_framework import serializers, status
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from oauthlib.common import generate_token
+from datetime import datetime, timedelta
 import re
 
 USER = get_user_model()
@@ -113,19 +116,38 @@ def get_message(obj):
 
 
 def get_access_token(user):
-    print(user)
+    app, created = Application.objects.get_or_create(user=user)
+    if created:
+        user.last_login = None
+    else:
+        user.last_login = datetime.now()
+        user.save()
+    token = generate_token()
+    refresh_token = generate_token()
+    expire_time = 500
+    expires = datetime.now() + timedelta(days=expire_time)
+    scope = 'read write'
+    access_token_instance = AccessToken.objects.create(user=user, application=app, expires=expires,  # noqa
+                                                       token=token, scope=scope)
+    RefreshToken.objects.create(user=user, application=app,  # noqa
+                                token=refresh_token, access_token=access_token_instance)
+    token_json = {
+        'access_token': token,
+        'expires_in': expire_time,
+        'refresh_token': refresh_token,
+        'scope': scope
+    }
+    return token_json
 
 
 def expire_previous_tokens(user_id):
-    print(user_id)
+    AccessToken.objects.filter(user_id=user_id).delete()  # noqa
 
 
-def logout(user_id, access_token):
+def logout(user_id):
     """ Remove access_token and registration_token """
     try:
         user = User.objects.get(pk=user_id)
-        print(user)
-        print("logout")
-        print("access_token: ", access_token)
+        RefreshToken.objects.filter(user_id=user).delete()  # noqa
     except USER.DoesNotExist:
         pass
