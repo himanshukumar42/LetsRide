@@ -1,12 +1,6 @@
-from django.http import JsonResponse
 from rest_framework import generics, mixins, permissions, authentication
-
+from ride.serializers.serializers import RequesterSerializer
 from ride.models import Requester
-from ride.serializers import RequesterSerializer
-
-
-def health_check(request, *args, **kwargs):
-    return JsonResponse({"Health": "Ok"})
 
 
 class RequesterListCreateAPIView(generics.ListCreateAPIView):
@@ -18,6 +12,7 @@ class RequesterListCreateAPIView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         print(serializer.validated_data)
         name = serializer.validated_data.get('user')
+        print('User:- ', name)
         description = serializer.validated_data.get('description')
         if description is None:
             description = 'Default Description '

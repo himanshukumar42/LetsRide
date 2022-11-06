@@ -1,12 +1,6 @@
-from django.http import JsonResponse
 from rest_framework import generics, mixins, permissions, authentication
-
+from ride.serializers.serializers import RideSerializer
 from ride.models import Rider
-from ride.serializers import RideSerializer, RequesterSerializer
-
-
-def health_check(request, *args, **kwargs):
-    return JsonResponse({"Health": "Ok"})
 
 
 class RiderListCreateAPIView(generics.ListCreateAPIView):

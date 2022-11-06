@@ -1,8 +1,17 @@
-from django.urls import path
-from api.views import rider, requester
+from api.views import common, accounts, rider, requester
+from django.urls import path, include
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'login', accounts.LoginViewSet, basename='login')
+router.register(r'sign-up', accounts.SignUpViewSet, basename='sign-up')
+router.register(r'logout', accounts.LogoutViewSet, basename='logout')
 
 urlpatterns = [
-    path('', rider.health_check, name='health_check'),
+    path('', common.health_check, name='health_check'),
+
+    # account
+    path('', include(router.urls)),
 
     # rider
     path('rider/', rider.RiderListCreateAPIView.as_view(), name='rider_create'),

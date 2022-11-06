@@ -98,7 +98,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         'blank': ErrorManager().get_blank_field_message('password'),
         'min_length': ErrorManager().get_minimum_limit_message('password', '8'),
         'max_length': ErrorManager().get_maximum_limit_message('password', '15'),
-    }, read_only=True)
+    })
 
     class Meta:
         model = User
