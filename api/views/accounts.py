@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets, generics, status
 
 
-class LoginViewSet(viewsets.ModelViewSet):
+class LoginViewSet(viewsets.ModelViewSet, ApiResponse):
     """ Login Model ViewSet"""
 
     serializer_class = LoginSerializer
@@ -26,6 +26,7 @@ class LoginViewSet(viewsets.ModelViewSet):
 
 
 class LogoutViewSet(viewsets.GenericViewSet, ApiResponse):
+    """ Logout ViewSet class """
     permission_classes = [IsAuthenticated]
     serializer_class = None
     http_method_names = ('post',)
@@ -40,6 +41,7 @@ class LogoutViewSet(viewsets.GenericViewSet, ApiResponse):
 
 
 class SignUpViewSet(viewsets.ModelViewSet, ApiResponse):
+    """ SignUp ViewSet class """
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
     http_method_names = ('post', )
@@ -47,7 +49,7 @@ class SignUpViewSet(viewsets.ModelViewSet, ApiResponse):
     def create(self, request, *args, **kwargs):
         user_create_serializer_instance = self.serializer_class(
             data=request.data,
-            context={'confirm_password': request.data('confirm_password')}
+            context={'confirm_password': request.data.get('confirm_password')}
         )
         if user_create_serializer_instance.is_valid():
             user_create_serializer_instance.save()
@@ -64,6 +66,7 @@ class SignUpViewSet(viewsets.ModelViewSet, ApiResponse):
 
 
 class UserForgotPassword(generics.GenericAPIView):
+    """ User Forgot Password"""
     serializer_class = UserForgotPasswordSerializer
 
     def post(self, request):
@@ -92,6 +95,7 @@ class UserForgotPassword(generics.GenericAPIView):
 
 
 class VerifyUserForgotPassword(generics.GenericAPIView, ApiResponse):
+    """ Verify User Forgot Password class """
     def get(self, request, uid64, token):
         try:
             print(self.request)

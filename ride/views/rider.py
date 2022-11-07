@@ -34,4 +34,3 @@ class RiderDelete(LoginRequiredMixin, DeleteView):
     model = Rider
     fields = '__all__'
     success_url = reverse_lazy('riders')
-

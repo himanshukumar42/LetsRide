@@ -1,4 +1,6 @@
-from rest_framework import generics, mixins, permissions, authentication
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
+from rest_framework import generics, mixins
 from ride.serializers.serializers import RequesterSerializer
 from ride.models import Requester
 
@@ -6,8 +8,8 @@ from ride.models import Requester
 class RequesterListCreateAPIView(generics.ListCreateAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         print(serializer.validated_data)
@@ -22,6 +24,8 @@ class RequesterListCreateAPIView(generics.ListCreateAPIView):
 class RequesterUpdateAPIView(generics.UpdateAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
     def perform_update(self, serializer):
@@ -33,6 +37,8 @@ class RequesterUpdateAPIView(generics.UpdateAPIView):
 class RequesterDeleteAPIView(generics.DestroyAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
     def perform_destroy(self, instance):
@@ -43,6 +49,8 @@ class RequesterDeleteAPIView(generics.DestroyAPIView):
 class RequesterDetailAPIView(generics.RetrieveAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'pk'
 
 
@@ -57,6 +65,8 @@ class RequesterMixinView(
 
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
     def get(self, request, *args, **kwargs):

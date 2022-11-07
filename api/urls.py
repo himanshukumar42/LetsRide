@@ -1,5 +1,7 @@
 from api.views import common, accounts, rider, requester
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
+from .sitemaps import RiderSiteMap, RequesterSiteMap
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -7,9 +9,20 @@ router.register(r'login', accounts.LoginViewSet, basename='login')
 router.register(r'sign-up', accounts.SignUpViewSet, basename='sign-up')
 router.register(r'logout', accounts.LogoutViewSet, basename='logout')
 
+sitemaps_dict = {
+    'rider': RiderSiteMap,
+    'requester': RequesterSiteMap,
+}
+
 urlpatterns = [
     path('', common.health_check, name='health_check'),
 
+    path(
+        'sitemap.xml/',
+        sitemap,
+        {'sitemaps': sitemaps_dict},
+        name='django.contrib.sitemaps.views.sitemap',
+    ),
     # account
     path('', include(router.urls)),
 
