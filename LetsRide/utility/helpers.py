@@ -144,9 +144,10 @@ def expire_previous_tokens(user_id):
     AccessToken.objects.filter(user_id=user_id).delete()  # noqa
 
 
-def logout(user_id):
+def logout(user_id, access_token):
     """ Remove access_token and registration_token """
     try:
+        print(access_token)
         user = User.objects.get(pk=user_id)
         RefreshToken.objects.filter(user_id=user).delete()  # noqa
     except USER.DoesNotExist:
