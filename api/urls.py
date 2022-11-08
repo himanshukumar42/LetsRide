@@ -32,6 +32,7 @@ urlpatterns = [
     path('rider/<int:pk>/update/', rider.RiderUpdateAPIView.as_view(), name='rider-update'),
     path('rider/<int:pk>/delete/', rider.RiderDeleteAPIView.as_view(), name='rider-delete'),
     path('riders/<int:pk>/', rider.RiderMixinView.as_view(), name='riders-get'),
+    path('rider-match/', common.RiderRequesterMatchAPIView.as_view(), name='rider-match'),
 
     # requester
     path('requester/', requester.RequesterListCreateAPIView.as_view(), name='rider_create'),

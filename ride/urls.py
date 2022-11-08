@@ -3,6 +3,7 @@ from ride.views import common, rider, requester
 from django.contrib.auth.views import LogoutView
 from django.urls import path, re_path, include
 from drf_yasg.views import get_schema_view
+from rest_framework import routers
 from drf_yasg import openapi
 
 schema_view = get_schema_view(
@@ -18,10 +19,17 @@ schema_view = get_schema_view(
     permission_classes=[AllowAny]
 )
 
+router = routers.DefaultRouter()
+# router.register(r'login', common.CustomLoginView.as_view(), basename='login')
+router.register(r'register', common.SignUpViewSet, basename='sign-up')
+# router.register(r'logout', LogoutView.as_view(next_page='login'), basename='logout')
+
 urlpatterns = [
     path('health-check', common.health_check, name='health_check'),
     path('login/', common.CustomLoginView.as_view(), name='login'),
+    # path('register/', common.SignUpViewSet, name='register'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('', include(router.urls)),
 
     # rider
     path('', rider.RiderView.as_view(), name='riders'),

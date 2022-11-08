@@ -1,5 +1,5 @@
 from ride.serializers.auth_serializers import LoginSerializer, \
-    UserRegistrationSerializer, UserForgotPasswordSerializer, SetNewResetPasswordSerializer
+    UserRegistrationSerializer, UserForgotPasswordSerializer, SetNewResetPasswordSerializer, LogoutSerializer
 from LetsRide.utility.messages import SUCCESS_CODE
 from LetsRide.utility.helpers import ApiResponse, logout, get_message
 from rest_framework.permissions import IsAuthenticated
@@ -28,7 +28,7 @@ class LoginViewSet(viewsets.ModelViewSet, ApiResponse):
 class LogoutViewSet(viewsets.GenericViewSet, ApiResponse):
     """ Logout ViewSet class """
     permission_classes = [IsAuthenticated]
-    serializer_class = None
+    serializer_class = LogoutSerializer
     http_method_names = ('post',)
 
     def create(self, request):

@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from model_utils import Choices
 from django.db import models
+from django import db
 
 
 TRAVEL_MEDIUM = Choices(
@@ -73,6 +74,12 @@ class Requester(models.Model):
 
     def __str__(self):
         return self.user
+
+    @property
+    def expired_date(self):
+        if self.date_time <= timezone.now():
+            self.status = 'Expired'
+        return self.status
 
     class Meta:
         ordering = ['date_time']

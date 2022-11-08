@@ -1,5 +1,4 @@
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework import generics, mixins
 from ride.serializers.serializers import RideSerializer
 from ride.models import Rider
@@ -8,7 +7,6 @@ from ride.models import Rider
 class RiderListCreateAPIView(generics.ListCreateAPIView):
     queryset = Rider.objects.all()
     serializer_class = RideSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
@@ -23,7 +21,6 @@ class RiderListCreateAPIView(generics.ListCreateAPIView):
 class RiderUpdateAPIView(generics.UpdateAPIView):
     queryset = Rider.objects.all()
     serializer_class = RideSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
@@ -36,7 +33,6 @@ class RiderUpdateAPIView(generics.UpdateAPIView):
 class RiderDeleteAPIView(generics.DestroyAPIView):
     queryset = Rider.objects.all()
     serializer_class = RideSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
@@ -48,7 +44,6 @@ class RiderDeleteAPIView(generics.DestroyAPIView):
 class RiderDetailAPIView(generics.RetrieveAPIView):
     queryset = Rider.objects.all()
     serializer_class = RideSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'pk'
 
@@ -64,7 +59,6 @@ class RiderMixinView(
 
     queryset = Rider.objects.all()
     serializer_class = RideSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 

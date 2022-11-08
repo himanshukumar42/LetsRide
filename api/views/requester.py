@@ -8,7 +8,6 @@ from ride.models import Requester
 class RequesterListCreateAPIView(generics.ListCreateAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
-    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -24,7 +23,6 @@ class RequesterListCreateAPIView(generics.ListCreateAPIView):
 class RequesterUpdateAPIView(generics.UpdateAPIView):
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
@@ -65,7 +63,6 @@ class RequesterMixinView(
 
     queryset = Requester.objects.all()
     serializer_class = RequesterSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 

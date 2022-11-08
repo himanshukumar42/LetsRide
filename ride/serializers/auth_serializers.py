@@ -177,3 +177,9 @@ class SetNewResetPasswordSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed(f'exception occurred: {e}', 401)
 
         return super().validate(attrs)
+
+
+class LogoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ''
