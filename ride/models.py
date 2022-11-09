@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from model_utils import Choices
 from django.db import models
-
-# Create your models here.
+from django import db
 
 
 TRAVEL_MEDIUM = Choices(
@@ -33,6 +32,7 @@ STATUS = Choices(
 
 
 class Rider(models.Model):
+    objects = models.Manager()
     name = models.CharField(max_length=100, null=False)
     description = models.CharField(max_length=255)
     from_location = models.CharField(max_length=150, null=False)
@@ -54,6 +54,7 @@ class Rider(models.Model):
 
 
 class Requester(models.Model):
+    objects = models.Manager()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     description = models.CharField(max_length=255, null=True)
     from_location = models.CharField(max_length=100, null=False)
@@ -65,7 +66,7 @@ class Requester(models.Model):
     asset_sensitivity = models.CharField(max_length=150, choices=ASSET_SENSITIVITY, default=ASSET_SENSITIVITY.Normal)
     whom_to_deliver = models.CharField(max_length=255, null=True)
     accepted_person = models.CharField(max_length=255, null=True)
-    status = models.CharField(max_length=150, choices=STATUS, default=STATUS.Confirm)
+    status = models.CharField(max_length=150, choices=STATUS, default=STATUS.Pending)
     created_at = models.DateTimeField(editable=False, default=timezone.now(), null=False)
     updated_at = models.DateTimeField(editable=True, default=timezone.now(), null=False)
     deleted_at = models.DateTimeField(editable=False, null=True)
@@ -74,6 +75,11 @@ class Requester(models.Model):
     def __str__(self):
         return self.user
 
+    @property
+    def expired_date(self):
+        if self.date_time <= timezone.now():
+            self.status = 'Expired'
+        return self.status
+
     class Meta:
         ordering = ['date_time']
-
