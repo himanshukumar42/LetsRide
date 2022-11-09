@@ -7,6 +7,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.utils.encoding import force_str
+from django.db import transaction
 from rest_framework import serializers
 from django.db.models import Q
 
@@ -81,7 +82,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                                           'blank': ErrorManager().get_blank_field_message('last_name'),
                                           'max_length': ErrorManager().get_maximum_limit_message('last_name', '50')
                                       })
-    email = serializers.EmailField(required=True, max_length=15, min_length=5,
+    email = serializers.EmailField(required=True, max_length=150, min_length=5,
                                    error_messages={
                                        'blank': ErrorManager().get_blank_field_message('email'),
                                        'max_length': ErrorManager().get_maximum_limit_message('email', '150'),
@@ -94,11 +95,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                                          'min_length': ErrorManager().get_minimum_limit_message('password', '8'),
                                          'max_length': ErrorManager().get_maximum_limit_message('password', '15')
                                      })
-    confirm_password = serializers.CharField(required=True, max_length=15, min_length=8, error_messages={
+    confirm_password = serializers.CharField(max_length=15, min_length=8, error_messages={
         'blank': ErrorManager().get_blank_field_message('password'),
         'min_length': ErrorManager().get_minimum_limit_message('password', '8'),
         'max_length': ErrorManager().get_maximum_limit_message('password', '15'),
-    })
+    }, read_only=True)
 
     class Meta:
         model = User
@@ -122,12 +123,15 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
         return data
 
-    def create(self, validated_data):
-        validated_data['is_active'] = True
-        validated_data['username'] = validated_data['email']
-        instance = User.objects.create_user(**validated_data)
-        instance.save()
-        return instance
+    @staticmethod
+    def create(validated_data): # noqa
+        with transaction.atomic():
+            validated_data['is_active'] = True
+            validated_data['username'] = validated_data['email']
+            instance = User.objects.create(**validated_data)
+            instance.set_password(validated_data['password'])
+            instance.save()
+            return instance
 
     def to_representation(self, instance):
         rep = super(UserRegistrationSerializer, self).to_representation(instance)
